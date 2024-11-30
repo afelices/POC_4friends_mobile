@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:poc="clr-namespace:POC_4friends_mobile"
              x:Class="POC_4friends_mobile.MainPage">
+             <!--xmlns:poc="clr-namespace:POC_4friends_mobile"-->
 
     <ScrollView>
         <VerticalStackLayout
@@ -12,51 +12,54 @@
             <Label
                 Text="Training session"
                 Margin="10"
-                Style="{StaticResource Headline}"
+                TextColor="{StaticResource FirstColor}"
+                FontSize="32"
                 SemanticProperties.HeadingLevel="Level3" />
 
             <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, 30, Auto">
                 <Label Grid.Row="0" Grid.Column="0"
                     Text="Datetime"
-                    Style="{StaticResource SubHeadline}"/>
+                    TextColor="{StaticResource FirstColor}"
+                    FontSize="24"/>
 
                 <Label Grid.Row="0" Grid.Column="2"
                     Text="HR data"
-                    Style="{StaticResource SubHeadline}"/>
+                    TextColor="{StaticResource FirstColor}"
+                    FontSize="24"/>
 
                 <Editor Grid.Row="1" Grid.Column="0"
                     x:Name="DateTimeEdt"
                     Placeholder="Datetime"
                     HeightRequest="{OnPlatform 100, Android=60, iOS=60}"
-                    TextColor="{x:Static Member=poc:SharedResources.FontColorBlue}"/>
+                    TextColor="{StaticResource FirstColor}"/>
 
                 <Editor Grid.Row="1" Grid.Column="2"
                     x:Name="HREdt"
                     Placeholder="Enter HR data"
                     HeightRequest="{OnPlatform 100, Android=60, iOS=60}"
-                    TextColor="{x:Static Member=poc:SharedResources.FontColorBlue}"/>
+                    TextColor="{StaticResource FirstColor}"/>
 
                 <Button Grid.Row="2" Grid.Column="0"
                     x:Name="SaveBtn"
                     Text="Save"
                     WidthRequest="100"
                     Margin="10"
-                    TextColor="{x:Static Member=poc:SharedResources.FontColorWhite}"
-                    BackgroundColor="{x:Static Member=poc:SharedResources.BackgroundColor}"/>
+                    TextColor="{StaticResource SecondColor}"
+                    BackgroundColor="{StaticResource FirstColor}"/>
                 
                 <Button Grid.Row="2" Grid.Column="2"
                     x:Name="ShowBtn"
                     Text="Show" 
                     WidthRequest="100"
                     Margin="10"
-                    TextColor="{x:Static Member=poc:SharedResources.FontColorWhite}"
-                    BackgroundColor="{x:Static Member=poc:SharedResources.BackgroundColor}"/>
+                    TextColor="{StaticResource SecondColor}"
+                    BackgroundColor="{StaticResource FirstColor}"/>
             </Grid>
 
             <Editor
                 x:Name="TrainingEdt"
                 HeightRequest="{OnPlatform 100, Android=200, iOS=2000}"
-                TextColor="{x:Static Member=poc:SharedResources.FontColorBlue}"/>
+                TextColor="{StaticResource FirstColor}"/>
         </VerticalStackLayout>
     </ScrollView>
 
