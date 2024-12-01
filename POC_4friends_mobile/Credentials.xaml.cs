@@ -20,6 +20,6 @@ public partial class Credentials : ContentPage
         Username.Text = string.Empty;
         Password.Text = string.Empty;
 
-        await Shell.Current.GoToAsync("MainPage");
+        //await Shell.Current.GoToAsync("MainPage");
     }
 }

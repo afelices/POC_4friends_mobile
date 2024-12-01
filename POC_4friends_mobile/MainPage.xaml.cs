@@ -1,5 +1,5 @@
 ﻿
-using Microsoft.Maui.Controls.Platform;
+
 using POC_4friends_mobile.Models;
 using SQLite;
 
@@ -7,7 +7,7 @@ namespace POC_4friends_mobile
 {
     public partial class MainPage : ContentPage
     {
-        private readonly SQLiteAsyncConnection conn;
+        private readonly SQLiteConnection conn;
         private readonly string _fileName = Path.Combine(FileSystem.AppDataDirectory, "poc.sqlite");
 
         public MainPage()
@@ -17,14 +17,12 @@ namespace POC_4friends_mobile
             SaveBtn.Clicked += OnSaveBtnClicked!;
             ShowBtn.Clicked += OnShowBtnClickedAsync!;
 
-            conn = new SQLiteAsyncConnection(_fileName);
-            async Task result()
-            {
-                await conn.CreateTableAsync<Training>();
-            }
+            conn = new SQLiteConnection(_fileName);
+            conn.CreateTable<Training>();
+            //var result = async () => await conn.CreateTableAsync<Training>();
         }
 
-        private async void OnSaveBtnClicked(object sender, EventArgs e)
+        private void OnSaveBtnClicked(object sender, EventArgs e)
         {
             var training = new Training
             {
@@ -32,21 +30,21 @@ namespace POC_4friends_mobile
                 Datetime = DateTimeEdt.Text
             };
             
-            var inserted = async () => await conn.InsertAsync(training);
-            if (inserted.Equals(0))
-                await DisplayAlert("DB Error", "Training was not saved into the local DB", "");
+            var inserted = conn.Insert(training);
+            if (inserted == 0)
+                DisplayAlert("DB Error", "Training was not saved into the local DB", "OK");
 
             HREdt.Text = string.Empty;
             DateTimeEdt.Text = string.Empty;
         }
 
-        private async void OnShowBtnClickedAsync(object sender, EventArgs e)
+        private void OnShowBtnClickedAsync(object sender, EventArgs e)
         {
             if (File.Exists(_fileName))
             {
                 TrainingEdt.Text = string.Empty;
 
-                List<Training> trainingList = await conn.Table<Training>().ToListAsync();
+                List<Training> trainingList = conn.Table<Training>().ToList();
                 foreach (var training in trainingList)
                     TrainingEdt.Text += $"{training.Id} | {training.Datetime} | {training.HR}\n";
             }
