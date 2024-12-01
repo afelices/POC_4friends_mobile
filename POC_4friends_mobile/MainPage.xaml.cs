@@ -1,7 +1,7 @@
 ﻿
+using Microsoft.Maui.Controls.Platform;
 using POC_4friends_mobile.Models;
 using SQLite;
-using System.Runtime.CompilerServices;
 
 namespace POC_4friends_mobile
 {
@@ -31,9 +31,11 @@ namespace POC_4friends_mobile
                 HR = int.Parse(HREdt.Text),
                 Datetime = DateTimeEdt.Text
             };
-
-            conn.InsertAsync(training);
             
+            var inserted = async () => await conn.InsertAsync(training);
+            if (inserted.Equals(0))
+                await DisplayAlert("DB Error", "Training was not saved into the local DB", "");
+
             HREdt.Text = string.Empty;
             DateTimeEdt.Text = string.Empty;
         }
