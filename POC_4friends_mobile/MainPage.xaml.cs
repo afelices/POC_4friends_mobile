@@ -7,7 +7,6 @@ namespace POC_4friends_mobile
 {
     public partial class MainPage : ContentPage
     {
-        //private readonly SQLiteConnection conn;
         private readonly SQLiteAsyncConnection conn;
         private readonly string _fileName = Path.Combine(FileSystem.AppDataDirectory, "poc.sqlite");
 
@@ -18,12 +17,8 @@ namespace POC_4friends_mobile
             SaveBtn.Clicked += OnSaveBtnClicked!;
             ShowBtn.Clicked += OnShowBtnClickedAsync!;
 
-            //conn = new SQLiteConnection(_fileName);
-            //conn.CreateTable<Training>();
-
             conn = new SQLiteAsyncConnection(_fileName);
             Task.Run(() => conn.CreateTableAsync<Training>());
-            //var result = async () => await conn.CreateTableAsync<Training>();
         }
 
         private void OnSaveBtnClicked(object sender, EventArgs e)
@@ -34,8 +29,6 @@ namespace POC_4friends_mobile
                 Datetime = DateTimeEdt.Text
             };
 
-            //var inserted = conn.Insert(training);
-            //if (inserted == 0)
             var inserted = conn.InsertAsync(training);
             if (inserted.Result == 0)
                 DisplayAlert("DB Error", "Training was not saved into the local DB", "OK");
@@ -48,14 +41,11 @@ namespace POC_4friends_mobile
         {
             if (File.Exists(_fileName))
             {
-                TrainingEdt.Text = string.Empty;
-
-                //List<Training> trainingList = conn.Table<Training>().ToList();
                 var trainingList = Task.Run(() => conn.Table<Training>().ToListAsync());
-                //List<Training> trainingList = await conn.Table<Training>().ToListAsync();
-                //foreach (var training in trainingList)
                 foreach (var training in trainingList.Result)
                     TrainingEdt.Text += $"{training.Id} | {training.Datetime} | {training.HR}\n";
+
+                TrainingEdt.Text = string.Empty;
             }
         }
     }
